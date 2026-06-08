@@ -21,7 +21,6 @@ El backend está configurado para conectar con una base de datos MariaDB y utili
     Navega a la carpeta del backend y utiliza Docker Compose para iniciar el contenedor de MariaDB:
     ```bash
     cd backend-inventario
-    docker-compose up -d
     ```
     *Nota: Esto creará una base de datos llamada `inventario_db` en el puerto `3306` con usuario/password: `root/root`.*
 
@@ -39,13 +38,7 @@ El backend está configurado para conectar con una base de datos MariaDB y utili
 
 ## � Documentación de la API
 
-Para facilitar las pruebas de los endpoints, puedes utilizar cualquiera de las siguientes opciones:
-
-### 1. Swagger UI (OpenAPI)
-Si la aplicación está en ejecución, puedes acceder a la interfaz interactiva en:
-`http://localhost:8080/inventario/swagger-ui/index.html`
-
-### 2. Colección de Postman
+### Colección de Postman
 En la raíz del proyecto (o en la carpeta `/docs`) se incluye el archivo `Inventario_Activos.postman_collection.json`.
 1. Abre Postman.
 2. Haz clic en **Import**.
@@ -82,8 +75,8 @@ El frontend es una aplicación SPA que interactúa con la API REST del backend.
 
 ## 📂 Estructura del Proyecto
 
-*   `/backend-inventario`: Código fuente Java, configuración de Spring Boot y Docker Compose.
-*   `/frontend-inventario`: Aplicación Angular, componentes, servicios y estilos.
+*   `/modulo_inventario_backend`: Código fuente Java, configuración de Spring Boot y Docker Compose.
+*   `/modulo_inventario_frontend`: Aplicación Angular, componentes, servicios y estilos.
 
 ---
 Desarrollado como parte del Módulo de Inventario de Activos.

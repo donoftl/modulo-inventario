@@ -1,0 +1,219 @@
+{
+	"info": {
+		"_postman_id": "b1a2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
+		"name": "Módulo Inventario Activos",
+		"description": "Colección de peticiones para el sistema de inventario de activos físicos.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Seguridad (Auth)",
+			"item": [
+				{
+					"name": "Login Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set(\"jwt_token\", jsonData.token);",
+									"    console.log(\"Token guardado automáticamente en la variable jwt_token\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Gestión de Activos",
+			"item": [
+				{
+					"name": "Listar Activos (Filtros y Paginación)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/activos?page=0&size=10&sortBy=fechaIngreso&sortDir=desc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"activos"
+							],
+							"query": [
+								{ "key": "numeroSerie", "value": "SN", "disabled": true },
+								{ "key": "marcaModelo", "value": "Dell", "disabled": true },
+								{ "key": "idCategoria", "value": "1", "disabled": true },
+								{ "key": "estado", "value": "Nuevo", "disabled": true },
+								{ "key": "page", "value": "0" },
+								{ "key": "size", "value": "10" },
+								{ "key": "sortBy", "value": "fechaIngreso" },
+								{ "key": "sortDir", "value": "desc" }
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Nuevo Activo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"numeroSerie\": \"XYZ-12345\",\n    \"marcaModelo\": \"MacBook Pro M3\",\n    \"estado\": \"Nuevo\",\n    \"costo\": 2500.00,\n    \"idCategoria\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/activos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"activos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Activo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"marcaModelo\": \"MacBook Pro M3 Max\",\n    \"estado\": \"Dañado\",\n    \"costo\": 2400.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/activos/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"activos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "UUID-DEL-ACTIVO"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Catálogos y Reportes",
+			"item": [
+				{
+					"name": "Listar Categorías",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/categorias",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"categorias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exportar Reporte (Base64 Zip)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/reportes/exportar?estado=Nuevo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"reportes",
+								"exportar"
+							],
+							"query": [
+								{ "key": "estado", "value": "Nuevo" }
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/inventario",
+			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

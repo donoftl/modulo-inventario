@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  mariadb-server:
+    image: mariadb:10.11
+    container_name: mariadb_inventario
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: inventario_db
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      # Opcional: Si quieres que cree las tablas e inserte las categorías al iniciar,
+      # pon tu script .sql de la Fase 1 en una carpeta llamada 'init' junto a este archivo:
+      # - ./init:/docker-entrypoint-initdb.d
+
+volumes:
+  mariadb_data:

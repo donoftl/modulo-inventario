@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: modulo-inventario-activos
+
+ 
+  datasource:
+    url: jdbc:mariadb://localhost:3306/inventario_db?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: org.mariadb.jdbc.Driver
+
+    # --- OPCIÓN B: Oracle (Descomenta esto y comenta la Opción A si usas Oracle) ---
+    # url: jdbc:oracle:thin:@localhost:1521:XE
+    # username: SYSTEM
+    # password: tu_contraseña_aqui
+    # driver-class-name: oracle.jdbc.OracleDriver
+
+  # 2. CONFIGURACIÓN DE JPA / HIBERNATE
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect # Cambiar a org.hibernate.dialect.OracleDialect si usas Oracle
+    hibernate:
+      ddl-auto: update # Crea o actualiza las tablas automáticamente según las @Entity de Java
+    show-sql: true     # Muestra las consultas SQL en la consola (ideal para desarrollo)
+    properties:
+      hibernate:
+        format_sql: true # Formatea el SQL en consola para que sea legible
+
+  # 3. CONFIGURACIÓN DE CARGA DE ARCHIVOS (Por si acaso, aunque manejas Base64)
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  data:
+    web:
+      pageable:
+        page-serialization-mode: via_dto
+
+# 4. CONFIGURACIÓN DEL SERVIDOR
+server:
+  port: 8080
+  servlet:
+    context-path: /inventario # Tus endpoints empezarán con http://localhost:8080/inventario/api/...
+
+# 5. CONFIGURACIÓN PROPIA PARA JWT (Seguridad)
+jwt:
+  secret: c3VwZXItc2VjcmV0LWtleS1mb3ItZXhhbWVuLXRlY25pY28tc3ByaW5nLWJvb3QtMy1qd3Q= # Clave en Base64 para firmar tokens
+  expiration: 86400000 # Tiempo de vida del token en milisegundos (24 Horas)
